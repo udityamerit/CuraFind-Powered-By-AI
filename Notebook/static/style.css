@@ -1,8 +1,8 @@
 /* --- Universal Styles & Variables --- */
 :root {
     --primary-bg: #0d1b2a;
-    --container-bg: rgba(21, 30, 42, 0.3);      /* 60% transparent */
-    --card-bg: rgba(27, 38, 59, 0.0);          /* 60% transparent */
+    --container-bg: rgba(21, 30, 42, 0.85);
+    --card-bg: rgba(27, 38, 59, 0.75);
     --accent-color: #00aaff;
     --text-primary: #e0e1dd;
     --text-secondary: #a7a9be;
@@ -30,7 +30,7 @@ body {
 /* --- Homepage & Recommender Hero Styles (for headings) --- */
 .hero {
     text-align: center;
-    margin-bottom: 40px; /* Space below the heading */
+    margin-bottom: 40px;
 }
 
 .hero h1 {
@@ -83,7 +83,7 @@ body {
     padding: 40px;
     position: relative;
     z-index: 2;
-    text-align: center; /* Ensures content within is centered */
+    text-align: center;
 }
 
 .info-section, .features {
@@ -128,14 +128,14 @@ body {
 }
 
 /* --- Recommender Page Specific Styles --- */
-.recommender-page-wrapper { /* New wrapper for recommender content */
-    max-width: 1000px;
+.recommender-page-wrapper {
+    max-width: 900px;
     margin: 40px auto;
     position: relative;
     z-index: 2;
 }
 
-.container { /* This is now specifically for the form and results */
+.container {
     padding: 40px;
     background-color: var(--container-bg);
     border-radius: 15px;
@@ -144,8 +144,8 @@ body {
     backdrop-filter: blur(10px);
 }
 
-.recommender-header { /* Only contains the home button */
-    text-align: right; 
+.recommender-header {
+    text-align: right;
     margin-bottom: 20px;
 }
 
@@ -174,7 +174,7 @@ button:hover { background-color: var(--accent-color); color: var(--primary-bg); 
 .results h2 { color: var(--text-primary); border-bottom: 1px solid var(--border-color); padding-bottom: 10px; margin-bottom: 20px; }
 
 .medicine-card, .medicine-card-small {
-    background-color: var(--card-bg); /* Uses the transparent card background */
+    background-color: var(--card-bg);
     padding: 25px;
     border-radius: 10px;
     margin-bottom: 30px;
@@ -201,3 +201,54 @@ button:hover { background-color: var(--accent-color); color: var(--primary-bg); 
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+
+/* --- Responsive Design --- */
+
+/* For Tablets */
+@media (max-width: 992px) {
+    .hero h1 {
+        font-size: 3.5em;
+    }
+
+    .info-section h2, .features h2 {
+        font-size: 2em;
+    }
+
+    .main-container, .recommender-page-wrapper {
+        margin: 20px auto;
+        padding: 20px;
+    }
+}
+
+/* For Mobile Phones */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    .hero h1 {
+        font-size: 2.5em;
+    }
+
+    .hero .subtitle {
+        font-size: 1.2em;
+    }
+
+    .info-section, .features, .container {
+        padding: 20px;
+    }
+
+    form {
+        flex-direction: column; /* Stacks the search bar and button vertically */
+    }
+
+    .recommender-header {
+        margin-bottom: 10px;
+    }
+
+    .main-container, .recommender-page-wrapper {
+        padding: 15px;
+        margin: 10px auto;
+    }
+}
