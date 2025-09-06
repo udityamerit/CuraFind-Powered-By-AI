@@ -1,0 +1,179 @@
+/* --- Universal Styles & Variables --- */
+:root {
+    --primary-bg: #0d1b2a;
+    --container-bg: rgba(21, 30, 42, 0.85);
+    --card-bg: #1b263b;
+    --accent-color: #00aaff;
+    --text-primary: #e0e1dd;
+    --text-secondary: #a7a9be;
+    --border-color: rgba(0, 170, 255, 0.2);
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--primary-bg);
+    color: var(--text-primary);
+    margin: 0;
+    padding: 20px;
+    overflow-x: hidden;
+}
+
+#particles-js {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+/* --- Homepage Specific Styles --- */
+.main-container {
+    max-width: 960px;
+    margin: 40px auto;
+    padding: 40px;
+    position: relative;
+    z-index: 2;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 4em;
+    font-weight: 700;
+    color: var(--accent-color);
+    margin-bottom: 0.2em;
+    animation: fadeInDown 1s ease-out;
+}
+
+.hero .subtitle {
+    font-size: 1.5em;
+    color: var(--text-primary);
+    margin-bottom: 1em;
+    animation: fadeInUp 1s 0.3s ease-out backwards;
+}
+
+.hero .description {
+    max-width: 700px;
+    margin: 0 auto 2em;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    animation: fadeInUp 1s 0.6s ease-out backwards;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 15px 35px;
+    background-color: var(--accent-color);
+    color: var(--primary-bg);
+    border: 2px solid var(--accent-color);
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    animation: fadeInUp 1s 0.9s ease-out backwards;
+}
+
+.cta-button:hover {
+    background-color: transparent;
+    color: var(--accent-color);
+    transform: translateY(-3px);
+}
+
+.info-section, .features {
+    padding: 60px 20px;
+    margin-top: 40px;
+    background-color: var(--container-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 15px;
+    animation: fadeIn 1.5s ease-out;
+}
+
+.info-section h2, .features h2 {
+    font-size: 2.5em;
+    margin-bottom: 1em;
+    color: var(--text-primary);
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-top: 2em;
+}
+
+.feature-card {
+    background-color: var(--card-bg);
+    padding: 30px;
+    border-radius: 10px;
+    border-bottom: 3px solid transparent;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--accent-color);
+}
+
+.feature-icon {
+    font-size: 3em;
+    margin-bottom: 0.5em;
+}
+
+/* --- Recommender Page Specific Styles --- */
+.container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 40px;
+    background-color: var(--container-bg);
+    border-radius: 15px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    backdrop-filter: blur(10px);
+    position: relative;
+    z-index: 2;
+}
+
+.recommender-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.home-button {
+    padding: 8px 18px;
+    background-color: transparent;
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.home-button:hover {
+    background-color: var(--card-bg);
+    color: var(--text-primary);
+}
+
+form { display: flex; gap: 15px; margin-bottom: 30px; }
+input[type="text"] { flex-grow: 1; padding: 15px 20px; background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; font-size: 1em; color: var(--text-primary); }
+button { padding: 15px 30px; background-color: transparent; color: var(--accent-color); border: 2px solid var(--accent-color); border-radius: 8px; cursor: pointer; font-size: 1em; font-weight: 600; }
+button:hover { background-color: var(--accent-color); color: var(--primary-bg); }
+.results { margin-top: 20px; }
+.results h2 { color: var(--text-primary); border-bottom: 1px solid var(--border-color); padding-bottom: 10px; margin-bottom: 20px; }
+.medicine-card { background-color: var(--card-bg); padding: 25px; border-radius: 10px; margin-bottom: 30px; border-left: 5px solid var(--accent-color); }
+.medicine-card h3 { margin-top: 0; color: var(--accent-color); }
+.substitutes-list { list-style-type: none; padding: 0; }
+.substitutes-list li { background-color: transparent; padding: 15px; border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 10px; }
+.substitutes-list li:hover { background-color: var(--card-bg); border-color: var(--accent-color); }
+.error { color: #ff5252; background-color: rgba(255, 82, 82, 0.1); text-align: center; font-size: 1.2em; padding: 15px; border-radius: 8px; border: 1px solid #ff5252; }
+.show-alternatives { text-align: center; margin: 30px 0; }
+#toggle-alternatives { background-color: var(--card-bg); color: var(--text-secondary); border: 1px solid var(--border-color); padding: 10px 20px; border-radius: 8px; cursor: pointer; }
+.medicine-card-small { background-color: transparent; border: 1px solid var(--border-color); padding: 20px; border-radius: 10px; margin-bottom: 20px; }
+.medicine-card-small h3 { margin-top: 0; color: var(--text-primary); }
+
+/* --- Animations --- */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }

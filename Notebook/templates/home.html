@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CuraFind AI - Welcome</title>
+    
+    <!-- Google Fonts Import -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div id="particles-js"></div>
+
+    <div class="main-container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>Welcome to CuraFind AI</h1>
+            <p class="subtitle">Intelligent Medicine Discovery, Simplified.</p>
+            <p class="description">
+                CuraFind AI leverages Natural Language Processing to instantly analyze your symptoms, descriptions, or medicine names, providing you with the most relevant matches and their brand alternatives.
+            </p>
+            <a href="/recommender" class="cta-button">Launch Recommender</a>
+        </section>
+
+        <!-- About Section -->
+        <section class="info-section">
+            <h2>The Main Idea</h2>
+            <p>
+                Navigating the world of medicine can be complex. CuraFind AI was created to solve this problem by providing a simple, intuitive interface powered by sophisticated AI.  By transforming a massive dataset of medical information into a searchable knowledge base, our system can understand context and intent, going beyond simple keyword matching to deliver truly intelligent recommendations.
+            </p>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features">
+            <h2>Core Features</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3>Symptom Search</h3>
+                    <p>Describe how you feel, and our AI will find medicines that address those specific symptoms.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💊</div>
+                    <h3>Brand Alternatives</h3>
+                    <p>Find substitutes and alternatives for a given medicine, helping you make informed choices.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Instant Results</h3>
+                    <p>Our optimized model delivers recommendations in seconds, providing swift and reliable information.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

@@ -52,7 +52,7 @@ def train_and_save_model(data_filepath, vectorizer_path, matrix_path, df_path):
     print("Matrix and data saved.")
     
     print("\n--- Training Complete! ---")
-    print("You can now run 'interactive_recommender.py'.")
+    print("You can now run 'recommender.py'.")
 
 
 if __name__ == '__main__':
