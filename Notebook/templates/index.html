@@ -17,11 +17,14 @@
     <div class="container">
         <header class="recommender-header">
             <a href="/" class="home-button">Home</a>
-            <h1>CuraFind AI Recommender</h1>
         </header>
 
+        <section class="hero">
+            <h1>CuraFind AI Recommender</h1>
+        </section>
+
         <form action="/recommender" method="post">
-            <input type="text" name="query" placeholder="e.g., 'headache' or 'Crocin'" value="{{ query }}" required>
+            <input type="text" name="query" placeholder="e.g., 'headache' or 'Crocin'" required>
             <button type="submit">Search</button>
         </form>
 
@@ -68,7 +71,30 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+        particlesJS('particles-js',
+          {
+            "particles": {
+              "number": { "value": 80, "density": { "enable": true, "value_area": 800 } },
+              "color": { "value": "#00aaff" },
+              "shape": { "type": "circle" },
+              "opacity": { "value": 0.5, "random": false },
+              "size": { "value": 3, "random": true },
+              "line_linked": { "enable": true, "distance": 150, "color": "#00aaff", "opacity": 0.4, "width": 1 },
+              "move": { "enable": true, "speed": 6, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false }
+            },
+            "interactivity": {
+              "detect_on": "window",
+              "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" }, "resize": true },
+              "modes": {
+                "grab": { "distance": 200, "line_linked": { "opacity": 1 } },
+                "push": { "particles_nb": 4 }
+              }
+            },
+            "retina_detect": true
+          }
+        );
+    </script>
     <script>
         document.getElementById('toggle-alternatives')?.addEventListener('click', function() {
             var alternatives = document.getElementById('alternatives-section');

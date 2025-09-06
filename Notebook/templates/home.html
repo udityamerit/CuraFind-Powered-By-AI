@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CuraFind AI - Welcome</title>
     
-    <!-- Google Fonts Import -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -16,7 +15,6 @@
     <div id="particles-js"></div>
 
     <div class="main-container">
-        <!-- Hero Section -->
         <section class="hero">
             <h1>Welcome to CuraFind AI</h1>
             <p class="subtitle">Intelligent Medicine Discovery, Simplified.</p>
@@ -26,15 +24,6 @@
             <a href="/recommender" class="cta-button">Launch Recommender</a>
         </section>
 
-        <!-- About Section -->
-        <section class="info-section">
-            <h2>The Main Idea</h2>
-            <p>
-                Navigating the world of medicine can be complex. CuraFind AI was created to solve this problem by providing a simple, intuitive interface powered by sophisticated AI.  By transforming a massive dataset of medical information into a searchable knowledge base, our system can understand context and intent, going beyond simple keyword matching to deliver truly intelligent recommendations.
-            </p>
-        </section>
-
-        <!-- Features Section -->
         <section class="features">
             <h2>Core Features</h2>
             <div class="feature-grid">
@@ -58,6 +47,29 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+        particlesJS('particles-js',
+          {
+            "particles": {
+              "number": { "value": 80, "density": { "enable": true, "value_area": 800 } },
+              "color": { "value": "#00aaff" },
+              "shape": { "type": "circle" },
+              "opacity": { "value": 0.5, "random": false },
+              "size": { "value": 3, "random": true },
+              "line_linked": { "enable": true, "distance": 150, "color": "#00aaff", "opacity": 0.4, "width": 1 },
+              "move": { "enable": true, "speed": 6, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false }
+            },
+            "interactivity": {
+              "detect_on": "window", // <-- This is the crucial change
+              "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" }, "resize": true },
+              "modes": {
+                "grab": { "distance": 200, "line_linked": { "opacity": 1 } }, // Opacity set to 1 for better visibility
+                "push": { "particles_nb": 4 }
+              }
+            },
+            "retina_detect": true
+          }
+        );
+    </script>
 </body>
 </html>
