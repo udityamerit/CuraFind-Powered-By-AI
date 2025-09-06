@@ -7,7 +7,7 @@ import os
 
 # --- PAGE CONFIGURATION ---
 st.set_page_config(
-    page_title="MediRec AI Recommender",
+    page_title="CuraFind AI Recommender",
     page_icon="💊",
     layout="centered",
     initial_sidebar_state="auto"
@@ -102,7 +102,7 @@ def get_substitutes(medicine_name, df):
 def main():
     load_css()
     
-    st.title("MediRec AI 💊")
+    st.title("CuraFind Powered By AI 💊")
     st.markdown("Your AI-Powered Medicine Recommendation Assistant")
     
     # Load model
