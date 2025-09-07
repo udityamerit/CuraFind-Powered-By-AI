@@ -8,19 +8,63 @@
 
 <div class="container">
     <div class="form-container">
-        <form action="{{ url_for('login_page') }}" method="post">
-            <h2>Login</h2>
+        <form id="login-form" action="{{ url_for('login_page') }}" method="post">
+            <h2>Welcome Back!</h2>
             <input type="text" name="username_login" placeholder="Username" required>
-            <input type="password" name="password_login" placeholder="Password" required>
-            <button type="submit" name="login_submit">Login</button>
+            <div class="password-wrapper">
+                <input type="password" name="password_login" placeholder="Password" required id="login-password">
+                <span class="toggle-password" onclick="togglePasswordVisibility('login-password', this)">Show</span>
+            </div>
+            <div class="form-actions">
+                <button type="submit" name="login_submit">Login</button>
+                <button type="button" id="switch-to-signup" class="switch-btn">Sign Up</button>
+            </div>
         </form>
 
-        <form action="{{ url_for('login_page') }}" method="post">
-            <h2>Create an Account</h2>
+        <form id="signup-form" class="hidden" action="{{ url_for('login_page') }}" method="post">
+            <h2>Create Your Account</h2>
             <input type="text" name="username" placeholder="Username" required>
-            <input type="password" name="password" placeholder="Password" required>
-            <button type="submit" name="signup_submit">Sign Up</button>
+            <div class="password-wrapper">
+                <input type="password" name="password" placeholder="Password" required id="signup-password">
+                <span class="toggle-password" onclick="togglePasswordVisibility('signup-password', this)">Show</span>
+            </div>
+            <div class="form-actions">
+                <button type="submit" name="signup_submit">Create Account</button>
+                <button type="button" id="switch-to-login" class="switch-btn">Login</button>
+            </div>
         </form>
     </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // --- Show/Hide Password Logic ---
+    function togglePasswordVisibility(inputId, toggleElement) {
+        const passwordInput = document.getElementById(inputId);
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            toggleElement.textContent = 'Hide';
+        } else {
+            passwordInput.type = 'password';
+            toggleElement.textContent = 'Show';
+        }
+    }
+
+    // --- Login/Signup Form Switch Logic ---
+    const switchToSignupBtn = document.getElementById('switch-to-signup');
+    const switchToLoginBtn = document.getElementById('switch-to-login');
+    const loginForm = document.getElementById('login-form');
+    const signupForm = document.getElementById('signup-form');
+
+    switchToSignupBtn.addEventListener('click', () => {
+        loginForm.classList.add('hidden');
+        signupForm.classList.remove('hidden');
+    });
+
+    switchToLoginBtn.addEventListener('click', () => {
+        signupForm.classList.add('hidden');
+        loginForm.classList.remove('hidden');
+    });
+</script>
 {% endblock %}
