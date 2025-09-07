@@ -18,7 +18,7 @@
                 <div class="medicine-card">
                     <h3>{{ recommendation['name'] }}</h3>
                     <p><strong>Description:</strong> {{ recommendation['description'] }}</p>
-                    <p><strong>Reason for Use:</strong> {{ recommendation['reason_cleaned'] }}</p>
+                    <p><strong>Reason for Use:</strong> {{ recommendation['reason'] }}</p>
                 </div>
 
                 {% if substitutes %}
@@ -43,7 +43,7 @@
                             <div class="medicine-card-small">
                                 <h3>{{ row['name'] }}</h3>
                                 <p><strong>Description:</strong> {{ row['description'] }}</p>
-                                <p><strong>Reason for Use:</strong> {{ row['reason_cleaned'] }}</p>
+                                <p><strong>Reason for Use:</strong> {{ row['reason'] }}</p>
                             </div>
                         {% endfor %}
                     </div>

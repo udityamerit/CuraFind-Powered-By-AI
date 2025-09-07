@@ -1,7 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
-from recommender import load_model_components, get_recommendations_from_query, get_substitutes
+from recommender import load_model_components, get_recommendations, get_substitutes
 import pandas as pd
+import json
+import os
 
 # --- App and Login Configuration ---
 app = Flask(__name__)
@@ -12,14 +14,34 @@ login_manager.init_app(app)
 login_manager.login_view = 'login_page'
 login_manager.login_message_category = 'info'
 
-# --- User Model and Database (In-memory for demonstration) ---
-users = {}
+# --- User Model and Persistent Storage ---
+USERS_FILE = 'users.json'
 
 class User(UserMixin):
     def __init__(self, id, username, password):
         self.id = id
         self.username = username
         self.password = password
+
+def load_users():
+    """Loads users from a JSON file."""
+    if not os.path.exists(USERS_FILE):
+        return {}
+    with open(USERS_FILE, 'r') as f:
+        users_data = json.load(f)
+        # Recreate User objects from the loaded data
+        return {id: User(id, data['username'], data['password']) for id, data in users_data.items()}
+
+def save_users(users_dict):
+    """Saves users to a JSON file."""
+    # Convert User objects to a serializable dictionary
+    users_data = {id: {'username': user.username, 'password': user.password} for id, user in users_dict.items()}
+    with open(USERS_FILE, 'w') as f:
+        json.dump(users_data, f)
+
+# Load users at startup
+users = load_users()
+
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -49,29 +71,29 @@ def login_page():
         # --- Registration Logic ---
         if 'signup_submit' in request.form:
             username = request.form['username']
-            password = request.form['password'] # Correctly gets password from signup form
+            password = request.form['password']
             if username in [u.username for u in users.values()]:
                 flash('Username already exists.', 'danger')
             else:
                 new_id = str(len(users) + 1)
                 new_user = User(new_id, username, password)
                 users[new_id] = new_user
+                save_users(users)  # Save the updated user list to the file
                 login_user(new_user)
-                flash('Account created successfully!', 'success')
-                return redirect(url_for('recommender_page'))
+                flash('Account created successfully! You are now logged in.', 'success')
+                return redirect(url_for('recommender_page')) # Redirect to recommender after signup
         
-        # --- Login Logic (THE FIX IS HERE) ---
+        # --- Login Logic ---
         elif 'login_submit' in request.form:
             username = request.form['username_login']
-            # This line is critical. It MUST match the name in the login form's password input.
-            password = request.form['password_login'] # FIX: Was likely mismatched in your old code
+            password = request.form['password_login']
             
             user = next((u for u in users.values() if u.username == username), None)
             
             if user and user.password == password:
                 login_user(user)
-                next_page = request.args.get('next')
-                return redirect(next_page or url_for('recommender_page'))
+                # Redirect to the home page after a successful login
+                return redirect(url_for('home'))
             else:
                 flash('Invalid username or password.', 'danger')
 
@@ -86,13 +108,12 @@ def logout():
 @app.route('/recommender', methods=['GET', 'POST'])
 @login_required
 def recommender_page():
-    # (Your existing recommender logic here)
     if request.method == 'POST':
         user_query = request.form.get('query')
         if df is not None:
-            recommended_medicines = get_recommendations_from_query(user_query, df, vectorizer, matrix)
+            recommended_medicines = get_recommendations(user_query, df, vectorizer, matrix)
             if not recommended_medicines.empty:
-                top_recommendation = recommended_medicines.iloc[0]
+                top_recommendation = recommended_medicines.iloc[0].to_dict()
                 substitutes = get_substitutes(top_recommendation['name'], df)
                 other_recommendations = recommended_medicines.iloc[1:]
                 return render_template('index.html', recommendation=top_recommendation, substitutes=substitutes, other_recommendations=other_recommendations, query=user_query)
@@ -118,6 +139,4 @@ def contact_page():
     return render_template('contact.html')
 
 if __name__ == '__main__':
-    # Create a dummy user for testing if needed
-    # users['1'] = User('1', 'testuser', 'password123')
     app.run(debug=True)

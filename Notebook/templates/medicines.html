@@ -4,7 +4,7 @@
 {% block content %}
 <section class="hero">
     <h1>Explore Our Medicines</h1>
-    <p class="subtitle">A random selection from our dataset.</p>
+    <p class="subtitle">Medicines Present in Our Database.</p>
 </section>
 
 <div class="container">
@@ -12,7 +12,8 @@
         {% for med in medicines %}
             <div class="medicine-list-card">
                 <h3>{{ med['name'] }}</h3>
-                <p>{{ med['description'] | truncate(100) }}</p>
+                <p>{{ med['description'] }}</p>
+                <p><strong>Reason for Use:</strong> {{ med['reason'] }}</p>
             </div>
         {% else %}
             <p>No medicines to display.</p>
