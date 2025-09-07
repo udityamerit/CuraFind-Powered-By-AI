@@ -188,9 +188,10 @@ body {
 }
 
 /* --- Forms (Recommender, Login, Contact) --- */
-form { display: flex; gap: 15px; margin-bottom: 0; /* Remove bottom margin for form-actions */ }
+form { display: flex; gap: 15px; margin-bottom: 0; }
 input[type="text"], input[type="email"], input[type="password"], textarea {
-    flex-grow: 1;
+    width: 100%; /* CHANGED: Ensures all inputs take full width */
+    box-sizing: border-box; /* ADDED: Ensures padding is included in the width */
     padding: 15px 20px;
     background-color: var(--card-bg);
     border: 1px solid var(--border-color);
