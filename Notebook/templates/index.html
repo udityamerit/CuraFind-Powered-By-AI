@@ -1,101 +1,71 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CuraFind AI - Medicine Recommender</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <div id="particles-js"></div>
-    
-    <header class="main-header">
-        <nav>
-            <a href="/">Home</a>
-            <a href="/recommender" class="active">Recommender</a>
-            <a href="/medicines">Medicines</a>
-            <a href="/contact">Contact</a>
-            <a href="/login">Login</a>
-        </nav>
-    </header>
+{% extends "base.html" %}
+{% block title %}Medicine Recommender{% endblock %}
 
-    <div class="recommender-page-wrapper">
-        <section class="hero">
-            <h1>CuraFind AI Recommender</h1>
-        </section>
+{% block content %}
+    <section class="hero">
+        <h1>CuraFind AI Recommender</h1>
+    </section>
 
-        <div class="container">
-            <form action="/recommender" method="post">
-                <input type="text" name="query" placeholder="e.g., 'headache' or 'Crocin'" required>
-                <button type="submit">Search</button>
-            </form>
+    <div class="container">
+        <form action="/recommender" method="post">
+            <input type="text" name="query" placeholder="e.g., 'headache' or 'Crocin'" required>
+            <button type="submit">Search</button>
+        </form>
 
-            {% if recommendation is not none %}
-                <div class="results">
-                    <h2>Best Match Found</h2>
-                    <div class="medicine-card">
-                        <h3>{{ recommendation['name'] }}</h3>
-                        <p><strong>Description:</strong> {{ recommendation['description'] }}</p>
-                        <p><strong>Reason for Use:</strong> {{ recommendation['reason_cleaned'] }}</p>
+        {% if recommendation is not none %}
+            <div class="results">
+                <h2>Best Match Found</h2>
+                <div class="medicine-card">
+                    <h3>{{ recommendation['name'] }}</h3>
+                    <p><strong>Description:</strong> {{ recommendation['description'] }}</p>
+                    <p><strong>Reason for Use:</strong> {{ recommendation['reason_cleaned'] }}</p>
+                </div>
+
+                {% if substitutes %}
+                    <h2>Available Brand Substitutes</h2>
+                    <ul class="substitutes-list">
+                        {% for sub in substitutes %}
+                            <li>{{ sub }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="no-substitutes">No brand substitutes listed for this medicine.</p>
+                {% endif %}
+
+                {% if not other_recommendations.empty %}
+                    <div class="show-alternatives">
+                        <button id="toggle-alternatives">Show Other Similar Medicines</button>
                     </div>
 
-                    {% if substitutes %}
-                        <h2>Available Brand Substitutes</h2>
-                        <ul class="substitutes-list">
-                            {% for sub in substitutes %}
-                                <li>{{ sub }}</li>
-                            {% endfor %}
-                        </ul>
-                    {% else %}
-                        <p class="no-substitutes">No brand substitutes listed for this medicine.</p>
-                    {% endif %}
-
-                    {% if not other_recommendations.empty %}
-                        <div class="show-alternatives">
-                            <button id="toggle-alternatives">Show Other Similar Medicines</button>
-                        </div>
-
-                        <div id="alternatives-section" style="display: none;">
-                            <h2>Other Similar Medicines</h2>
-                            {% for index, row in other_recommendations.iterrows() %}
-                                <div class="medicine-card-small">
-                                    <h3>{{ row['name'] }}</h3>
-                                    <p><strong>Description:</strong> {{ row['description'] }}</p>
-                                    <p><strong>Reason for Use:</strong> {{ row['reason_cleaned'] }}</p>
-                                </div>
-                            {% endfor %}
-                        </div>
-                    {% endif %}
-                </div>
-            {% elif error %}
-                <p class="error">{{ error }}</p>
-            {% endif %}
-        </div>
+                    <div id="alternatives-section" style="display: none;">
+                        <h2>Other Similar Medicines</h2>
+                        {% for index, row in other_recommendations.iterrows() %}
+                            <div class="medicine-card-small">
+                                <h3>{{ row['name'] }}</h3>
+                                <p><strong>Description:</strong> {{ row['description'] }}</p>
+                                <p><strong>Reason for Use:</strong> {{ row['reason_cleaned'] }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        {% elif error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
     </div>
+{% endblock %}
 
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <script>
-        particlesJS('particles-js',
-          {
-            "particles": { "number": { "value": 80, "density": { "enable": true, "value_area": 800 } }, "color": { "value": "#00aaff" }, "shape": { "type": "circle" }, "opacity": { "value": 0.5, "random": false }, "size": { "value": 3, "random": true }, "line_linked": { "enable": true, "distance": 150, "color": "#00aaff", "opacity": 0.4, "width": 1 }, "move": { "enable": true, "speed": 6, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false } }, "interactivity": { "detect_on": "window", "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" }, "resize": true }, "modes": { "grab": { "distance": 200, "line_linked": { "opacity": 1 } }, "push": { "particles_nb": 4 } } }, "retina_detect": true }
-        );
-    </script>
-    <script>
-        document.getElementById('toggle-alternatives')?.addEventListener('click', function() {
-            var alternatives = document.getElementById('alternatives-section');
-            if (alternatives.style.display === 'none') {
-                alternatives.style.display = 'block';
-                this.textContent = 'Hide Other Medicines';
-            } else {
-                alternatives.style.display = 'none';
-                this.textContent = 'Show Other Similar Medicines';
-            }
-        });
-    </script>
-</body>
-</html>
+{% block scripts %}
+<script>
+    document.getElementById('toggle-alternatives')?.addEventListener('click', function() {
+        var alternatives = document.getElementById('alternatives-section');
+        if (alternatives.style.display === 'none') {
+            alternatives.style.display = 'block';
+            this.textContent = 'Hide Other Medicines';
+        } else {
+            alternatives.style.display = 'none';
+            this.textContent = 'Show Other Similar Medicines';
+        }
+    });
+</script>
+{% endblock %}

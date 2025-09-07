@@ -6,7 +6,7 @@
     <title>CuraFind AI - {% block title %}{% endblock %}</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
@@ -23,7 +23,12 @@
                     <a href="{{ url_for('recommender_page') }}" class="{{ 'active' if request.endpoint == 'recommender_page' else '' }}">Recommender</a>
                     <a href="{{ url_for('medicines_page') }}" class="{{ 'active' if request.endpoint == 'medicines_page' else '' }}">Medicines</a>
                     <a href="{{ url_for('contact_page') }}" class="{{ 'active' if request.endpoint == 'contact_page' else '' }}">Contact</a>
-                    <a href="{{ url_for('logout') }}">Logout</a>
+                    
+                    <div class="user-actions">
+                        <span class="nav-user">Hello, {{ current_user.username }}</span>
+                        <a href="{{ url_for('logout') }}" class="logout-button">Logout</a>
+                    </div>
+
                 {% else %}
                     <a href="{{ url_for('login_page') }}">Login/Sign Up</a>
                 {% endif %}

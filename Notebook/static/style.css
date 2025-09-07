@@ -27,31 +27,57 @@ body {
     z-index: -1;
 }
 
-/* --- Navigation Bar --- */
+/* --- Navigation Bar (UPDATED FOR STICKY BEHAVIOR) --- */
 .main-header {
-    padding: 20px 0;
-    text-align: center;
-    margin-bottom: 40px;
-    position: relative;
-    z-index: 10;
+    position: sticky; /* Makes the header stick to the top */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* Ensures it stays above other content */
+    background-color: rgba(13, 27, 42, 0.9); /* A slightly transparent background */
+    backdrop-filter: blur(10px); /* Frosted glass effect for a modern look */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Adds depth */
+    transition: padding 0.3s ease;
 }
 
-.main-header nav a {
+.main-header nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 15px 20px; /* Padding inside the nav */
+}
+
+.nav-logo {
+    font-size: 1.5em;
+    font-weight: 700;
+    color: var(--accent-color) !important;
+    text-decoration: none;
+    border: none !important;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.nav-links a {
     color: var(--text-secondary);
     text-decoration: none;
-    margin: 0 20px;
+    margin: 0 10px;
     font-size: 1.1em;
     padding-bottom: 5px;
     border-bottom: 2px solid transparent;
     transition: color 0.3s, border-color 0.3s;
 }
 
-.main-header nav a:hover,
-.main-header nav a.active {
+.nav-links a:hover,
+.nav-links a.active {
     color: var(--accent-color);
     border-color: var(--accent-color);
 }
-
 
 /* --- Homepage & Recommender Hero Styles (for headings) --- */
 .hero {
@@ -103,14 +129,14 @@ body {
 }
 
 /* --- General Page Wrapper --- */
+/* --- General Page Wrapper (UPDATED) --- */
 .page-wrapper, .recommender-page-wrapper, .main-container {
     max-width: 960px;
     margin: 40px auto;
-    padding: 40px;
+    padding: 40px; /* Padding for the content inside */
     position: relative;
     z-index: 2;
 }
-
 .container {
     padding: 40px;
     background-color: var(--container-bg);
@@ -321,4 +347,35 @@ button:hover { background-color: var(--accent-color); color: var(--primary-bg); 
     font-weight: 700;
     color: var(--accent-color) !important; /* Override other link styles */
     border: none !important;
+}
+
+/* --- Add these styles to the end of your style.css file --- */
+
+/* Styles for the user-specific actions in the nav bar */
+.user-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Creates space between the "Hello" message and the logout button */
+}
+
+.nav-user {
+    color: var(--text-primary);
+    font-weight: 500;
+    margin-left: 20px; /* Pushes it away from the other nav links */
+}
+
+.logout-button {
+    padding: 8px 15px;
+    background-color: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.logout-button:hover {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+    color: var(--primary-bg) !important; /* Use !important to override other link hover effects */
 }
