@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Medicines{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h1>Explore Our Medicines</h1>
+    <p class="subtitle">A random selection from our dataset.</p>
+</section>
+
+<div class="container">
+    <div class="medicine-grid">
+        {% for med in medicines %}
+            <div class="medicine-list-card">
+                <h3>{{ med['name'] }}</h3>
+                <p>{{ med['description'] | truncate(100) }}</p>
+            </div>
+        {% else %}
+            <p>No medicines to display.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
