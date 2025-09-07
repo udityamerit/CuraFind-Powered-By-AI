@@ -40,6 +40,27 @@ def recommender_page():
     # FIX: For GET requests, pass None to the template for the expected variables
     return render_template('index.html', recommendation=None, error=None, query=None)
 
+@app.route('/login')
+def login_page():
+    """Renders the login/signup page."""
+    return render_template('login.html')
+
+@app.route('/medicines')
+def medicines_page():
+    """Renders the medicine listing page."""
+    # Placeholder for the top 20 medicines
+    medicines = [
+        "Medicine A", "Medicine B", "Medicine C", "Medicine D", "Medicine E",
+        "Medicine F", "Medicine G", "Medicine H", "Medicine I", "Medicine J",
+        "Medicine K", "Medicine L", "Medicine M", "Medicine N", "Medicine O",
+        "Medicine P", "Medicine Q", "Medicine R", "Medicine S", "Medicine T"
+    ]
+    return render_template('medicines.html', medicines=medicines)
+
+@app.route('/contact')
+def contact_page():
+    """Renders the contact page."""
+    return render_template('contact.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
-

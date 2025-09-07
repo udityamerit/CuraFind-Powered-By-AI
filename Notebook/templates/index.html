@@ -13,12 +13,18 @@
 </head>
 <body>
     <div id="particles-js"></div>
+    
+    <header class="main-header">
+        <nav>
+            <a href="/">Home</a>
+            <a href="/recommender" class="active">Recommender</a>
+            <a href="/medicines">Medicines</a>
+            <a href="/contact">Contact</a>
+            <a href="/login">Login</a>
+        </nav>
+    </header>
 
     <div class="recommender-page-wrapper">
-        <header class="recommender-header">
-            <a href="/" class="home-button">Home</a>
-        </header>
-
         <section class="hero">
             <h1>CuraFind AI Recommender</h1>
         </section>
@@ -76,25 +82,7 @@
     <script>
         particlesJS('particles-js',
           {
-            "particles": {
-              "number": { "value": 80, "density": { "enable": true, "value_area": 800 } },
-              "color": { "value": "#00aaff" },
-              "shape": { "type": "circle" },
-              "opacity": { "value": 0.5, "random": false },
-              "size": { "value": 3, "random": true },
-              "line_linked": { "enable": true, "distance": 150, "color": "#00aaff", "opacity": 0.4, "width": 1 },
-              "move": { "enable": true, "speed": 6, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false }
-            },
-            "interactivity": {
-              "detect_on": "window",
-              "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" }, "resize": true },
-              "modes": {
-                "grab": { "distance": 200, "line_linked": { "opacity": 1 } },
-                "push": { "particles_nb": 4 }
-              }
-            },
-            "retina_detect": true
-          }
+            "particles": { "number": { "value": 80, "density": { "enable": true, "value_area": 800 } }, "color": { "value": "#00aaff" }, "shape": { "type": "circle" }, "opacity": { "value": 0.5, "random": false }, "size": { "value": 3, "random": true }, "line_linked": { "enable": true, "distance": 150, "color": "#00aaff", "opacity": 0.4, "width": 1 }, "move": { "enable": true, "speed": 6, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false } }, "interactivity": { "detect_on": "window", "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" }, "resize": true }, "modes": { "grab": { "distance": 200, "line_linked": { "opacity": 1 } }, "push": { "particles_nb": 4 } } }, "retina_detect": true }
         );
     </script>
     <script>
