@@ -270,3 +270,55 @@ button:hover { background-color: var(--accent-color); color: var(--primary-bg); 
     form { flex-direction: column; }
     .page-wrapper, .recommender-page-wrapper, .main-container { padding: 15px; margin: 10px auto; }
 }
+/* --- Added at the end of style.css --- */
+
+/* --- Flash Messages --- */
+.flash-messages {
+    width: 100%;
+    margin: 0 auto 20px;
+    padding: 0;
+    list-style: none;
+}
+
+.alert {
+    padding: 15px 20px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    font-size: 1.1em;
+    text-align: center;
+}
+
+.alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+.alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+.alert-info {
+    color: #0c5460;
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+}
+
+/* --- Navigation Bar Polish --- */
+.main-header nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.nav-logo {
+    font-size: 1.5em;
+    font-weight: 700;
+    color: var(--accent-color) !important; /* Override other link styles */
+    border: none !important;
+}
