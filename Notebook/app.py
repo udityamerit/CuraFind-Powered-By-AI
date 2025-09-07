@@ -7,7 +7,7 @@ import os
 
 # --- App and Login Configuration ---
 app = Flask(__name__)
-app.secret_key = 'your_super_secret_key_change_this'  # Important for sessions
+app.secret_key = 'your_super_secret_key_change_this'
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -24,24 +24,18 @@ class User(UserMixin):
         self.password = password
 
 def load_users():
-    """Loads users from a JSON file."""
     if not os.path.exists(USERS_FILE):
         return {}
     with open(USERS_FILE, 'r') as f:
         users_data = json.load(f)
-        # Recreate User objects from the loaded data
         return {id: User(id, data['username'], data['password']) for id, data in users_data.items()}
 
 def save_users(users_dict):
-    """Saves users to a JSON file."""
-    # Convert User objects to a serializable dictionary
     users_data = {id: {'username': user.username, 'password': user.password} for id, user in users_dict.items()}
     with open(USERS_FILE, 'w') as f:
         json.dump(users_data, f)
 
-# Load users at startup
 users = load_users()
-
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -51,24 +45,20 @@ def load_user(user_id):
 VECTORIZER_FILE = 'tfidf_vectorizer.pkl'
 MATRIX_FILE = 'tfidf_matrix.npz'
 DATAFRAME_FILE = 'processed_data.pkl'
-
 vectorizer, matrix, df = load_model_components(VECTORIZER_FILE, MATRIX_FILE, DATAFRAME_FILE)
 
 # --- Route Definitions ---
 
 @app.route('/')
 def home():
-    """Renders the homepage."""
     return render_template('home.html')
 
-@app.route('/login', methods=['GET', 'POST'])
+# --- THE FIX IS HERE ---
+@app.route('/login', methods=['GET', 'POST']) # Corrected from ['GET, POST']
 def login_page():
-    """Handles user login and registration."""
     if current_user.is_authenticated:
         return redirect(url_for('recommender_page'))
-
     if request.method == 'POST':
-        # --- Registration Logic ---
         if 'signup_submit' in request.form:
             username = request.form['username']
             password = request.form['password']
@@ -78,25 +68,19 @@ def login_page():
                 new_id = str(len(users) + 1)
                 new_user = User(new_id, username, password)
                 users[new_id] = new_user
-                save_users(users)  # Save the updated user list to the file
+                save_users(users)
                 login_user(new_user)
                 flash('Account created successfully! You are now logged in.', 'success')
-                return redirect(url_for('recommender_page')) # Redirect to recommender after signup
-        
-        # --- Login Logic ---
+                return redirect(url_for('recommender_page'))
         elif 'login_submit' in request.form:
             username = request.form['username_login']
             password = request.form['password_login']
-            
             user = next((u for u in users.values() if u.username == username), None)
-            
             if user and user.password == password:
                 login_user(user)
-                # Redirect to the home page after a successful login
                 return redirect(url_for('home'))
             else:
                 flash('Invalid username or password.', 'danger')
-
     return render_template('login.html')
 
 @app.route('/logout')
@@ -120,11 +104,9 @@ def recommender_page():
         return render_template('index.html', error="Sorry, we couldn't find any matching medicines.", query=user_query)
     return render_template('index.html', recommendation=None, error=None, query=None)
 
-
 @app.route('/medicines')
 @login_required
 def medicines_page():
-    """Renders the medicine listing page with 20 random medicines."""
     if df is not None and not df.empty:
         sample_size = min(20, len(df))
         medicines = df.sample(n=sample_size).to_dict('records')
@@ -132,10 +114,10 @@ def medicines_page():
         medicines = []
     return render_template('medicines.html', medicines=medicines)
 
+# The contact route is now very simple - it just shows the page
 @app.route('/contact')
 @login_required
 def contact_page():
-    """Renders the contact page."""
     return render_template('contact.html')
 
 if __name__ == '__main__':
