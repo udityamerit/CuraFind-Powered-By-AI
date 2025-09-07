@@ -401,3 +401,19 @@ button:hover { background-color: var(--accent-color); color: var(--primary-bg); 
     font-size: 0.9em;
     user-select: none;
 }
+/* static/style.css */
+
+/* Add or replace this in your existing CSS file */
+
+.medicine-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Creates two equal-width columns */
+    gap: 20px; /* Adjust the space between cards as needed */
+}
+
+.medicine-list-card {
+    border: 1px solid #1a076faa;
+    padding: 15px;
+    border-radius: 8px;
+    /* The background-color line has been removed to keep the original color */
+}
