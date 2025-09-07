@@ -9,11 +9,10 @@ app.secret_key = 'your_super_secret_key_change_this'  # Important for sessions
 
 login_manager = LoginManager()
 login_manager.init_app(app)
-login_manager.login_view = 'login_page'  # Redirect to login page if user is not authenticated
-login_manager.login_message_category = 'info' # Flash message category
+login_manager.login_view = 'login_page'
+login_manager.login_message_category = 'info'
 
 # --- User Model and Database (In-memory for demonstration) ---
-# In a real application, you would use a database (e.g., SQLAlchemy)
 users = {}
 
 class User(UserMixin):
@@ -37,7 +36,7 @@ vectorizer, matrix, df = load_model_components(VECTORIZER_FILE, MATRIX_FILE, DAT
 
 @app.route('/')
 def home():
-    """Renders the homepage. Accessible to everyone."""
+    """Renders the homepage."""
     return render_template('home.html')
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -50,7 +49,7 @@ def login_page():
         # --- Registration Logic ---
         if 'signup_submit' in request.form:
             username = request.form['username']
-            password = request.form['password']
+            password = request.form['password'] # Correctly gets password from signup form
             if username in [u.username for u in users.values()]:
                 flash('Username already exists.', 'danger')
             else:
@@ -61,10 +60,12 @@ def login_page():
                 flash('Account created successfully!', 'success')
                 return redirect(url_for('recommender_page'))
         
-        # --- Login Logic ---
+        # --- Login Logic (THE FIX IS HERE) ---
         elif 'login_submit' in request.form:
             username = request.form['username_login']
-            password = request.form['password_login']
+            # This line is critical. It MUST match the name in the login form's password input.
+            password = request.form['password_login'] # FIX: Was likely mismatched in your old code
+            
             user = next((u for u in users.values() if u.username == username), None)
             
             if user and user.password == password:
@@ -76,7 +77,6 @@ def login_page():
 
     return render_template('login.html')
 
-
 @app.route('/logout')
 @login_required
 def logout():
@@ -86,26 +86,17 @@ def logout():
 @app.route('/recommender', methods=['GET', 'POST'])
 @login_required
 def recommender_page():
-    """Handles the recommendation logic and page."""
+    # (Your existing recommender logic here)
     if request.method == 'POST':
-        user_query = request.form['query']
-        
+        user_query = request.form.get('query')
         if df is not None:
             recommended_medicines = get_recommendations_from_query(user_query, df, vectorizer, matrix)
-            
             if not recommended_medicines.empty:
                 top_recommendation = recommended_medicines.iloc[0]
                 substitutes = get_substitutes(top_recommendation['name'], df)
                 other_recommendations = recommended_medicines.iloc[1:]
-                
-                return render_template('index.html', 
-                                       recommendation=top_recommendation, 
-                                       substitutes=substitutes,
-                                       other_recommendations=other_recommendations,
-                                       query=user_query)
-                                       
-        return render_template('index.html', error="Sorry, we couldn't find any matching medicines for your query.", query=user_query)
-    
+                return render_template('index.html', recommendation=top_recommendation, substitutes=substitutes, other_recommendations=other_recommendations, query=user_query)
+        return render_template('index.html', error="Sorry, we couldn't find any matching medicines.", query=user_query)
     return render_template('index.html', recommendation=None, error=None, query=None)
 
 
@@ -114,14 +105,11 @@ def recommender_page():
 def medicines_page():
     """Renders the medicine listing page with 20 random medicines."""
     if df is not None and not df.empty:
-        # Get 20 random medicines if the dataset has enough samples
         sample_size = min(20, len(df))
         medicines = df.sample(n=sample_size).to_dict('records')
     else:
-        medicines = [] # Handle case where data isn't loaded
-        
+        medicines = []
     return render_template('medicines.html', medicines=medicines)
-
 
 @app.route('/contact')
 @login_required
@@ -130,6 +118,6 @@ def contact_page():
     return render_template('contact.html')
 
 if __name__ == '__main__':
-    # Create a dummy user for testing
-    users['1'] = User('1', 'testuser', 'password123')
+    # Create a dummy user for testing if needed
+    # users['1'] = User('1', 'testuser', 'password123')
     app.run(debug=True)

@@ -179,7 +179,7 @@ body {
 .feature-card:hover {
     transform: translateY(-10px) scale(1.03);
     border-color: var(--accent-color);
-    box-shadow: 0 10px 30px rgba(0, 170, 255, 0.2);
+    box-shadow: 0 10px 30px rgba(78, 94, 101, 0.2);
 }
 
 .feature-icon {
