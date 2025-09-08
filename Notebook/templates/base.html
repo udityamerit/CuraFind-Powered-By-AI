@@ -3,58 +3,546 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CuraFind AI - {% block title %}{% endblock %}</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>CuraFind - All-in-One</title>
+    <style>
+        /* Base Styles from original style.css */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #0a192f;
+            color: #fff;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        .container-fluid {
+            width: 100%;
+            padding: 0 15px;
+        }
+
+        /* Particles.js Background */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            background-color: #0a192f;
+            background-image: url('');
+            background-size: cover;
+            background-position: 50% 50%;
+            background-repeat: no-repeat;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 100;
+        }
+
+        .navbar-brand {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .navbar-nav {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-link {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.1rem;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* General Page Content Wrapper */
+        .page-content {
+            display: none; /* Hidden by default */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 100px 20px 20px;
+            text-align: center;
+        }
+
+        /* Welcome/Index Page Styles */
+        .welcome-container h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+
+        .welcome-container p {
+            font-size: 1.5rem;
+            max-width: 700px;
+            margin-bottom: 40px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .cta-button {
+            background: #e91e63;
+            color: #fff;
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 600;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background: #c2185b;
+            transform: scale(1.05);
+        }
+        
+        /* Login Form Styles */
+        .login-container, .contact-container, .medicines-container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            width: 100%;
+            max-width: 450px;
+        }
+        
+        .login-container h2, .contact-container h2, .medicines-container h2 {
+            margin-bottom: 30px;
+            font-size: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(0,0,0,0.2);
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #e91e63;
+        }
+        
+        button[type="submit"] {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            background: #e91e63;
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        button[type="submit"]:hover {
+            background: #c2185b;
+        }
+
+        /* Medicine Results Style */
+        #medicine-results {
+            margin-top: 30px;
+            text-align: left;
+            width: 100%;
+        }
+
+        #medicine-results h3 {
+            margin-bottom: 15px;
+        }
+        
+        .medicine-item {
+            background: rgba(0,0,0,0.3);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        
+        /* === NEW: Style for the success message === */
+        .success-message {
+            margin-top: 20px;
+            color: #4caf50;
+            font-weight: 500;
+            background: rgba(76, 175, 80, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(76, 175, 80, 0.3);
+            display: none; /* Hidden by default */
+        }
+
+        /* === Styles for Role Selection Dashboard === */
+        .dashboard-container {
+             width: 100%;
+        }
+        
+        .dashboard-title {
+            font-size: 3rem;
+            margin-bottom: 40px;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        .role-selection-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        .role-card {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            text-decoration: none;
+            color: #fff;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, background 0.3s ease;
+            cursor: pointer;
+        }
+
+        .role-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .card-icon span {
+            font-size: 4rem;
+            line-height: 1;
+        }
+
+        .role-card h3 {
+            margin-top: 20px;
+            font-size: 1.5rem;
+            font-weight: 400;
+        }
+
+    </style>
 </head>
 <body>
     <div id="particles-js"></div>
-
-    <header class="main-header">
-        <nav>
-            <a href="{{ url_for('home') }}" class="nav-logo">CuraFind AI</a>
-            <div class="nav-links">
-                <a href="{{ url_for('home') }}" class="{{ 'active' if request.endpoint == 'home' else '' }}">Home</a>
-                {% if current_user.is_authenticated %}
-                    <a href="{{ url_for('recommender_page') }}" class="{{ 'active' if request.endpoint == 'recommender_page' else '' }}">Recommender</a>
-                    <a href="{{ url_for('medicines_page') }}" class="{{ 'active' if request.endpoint == 'medicines_page' else '' }}">Medicines</a>
-                    <a href="{{ url_for('contact_page') }}" class="{{ 'active' if request.endpoint == 'contact_page' else '' }}">Contact</a>
-                    
-                    <div class="user-actions">
-                        <span class="nav-user">Hello, {{ current_user.username }}</span>
-                        <a href="{{ url_for('logout') }}" class="logout-button">Logout</a>
-                    </div>
-
-                {% else %}
-                    <a href="{{ url_for('login_page') }}">Login/Sign Up</a>
-                {% endif %}
-            </div>
+    <div class="container-fluid">
+        <nav class="navbar">
+            <a onclick="navigateTo('page-index')" class="navbar-brand">CuraFind</a>
+            <ul class="navbar-nav">
+                <li><a onclick="navigateTo('page-home')" class="nav-link">Home</a></li>
+                <li><a onclick="navigateTo('page-medicines')" class="nav-link">Medicines</a></li>
+                <li><a onclick="navigateTo('page-contact')" class="nav-link">Contact Us</a></li>
+                <li><a onclick="navigateTo('page-roles')" class="nav-link">Sign In</a></li>
+            </ul>
         </nav>
-    </header>
 
-    <main class="page-wrapper">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                <div class="flash-messages">
-                {% for category, message in messages %}
-                    <div class="alert alert-{{ category }}">{{ message }}</div>
-                {% endfor %}
+        <!-- Page: Welcome/Index -->
+        <div id="page-index" class="page-content">
+            <div class="welcome-container">
+                <h1>Welcome to CuraFind</h1>
+                <p>Your intelligent health assistant for finding the right medicine, powered by AI.</p>
+                <a onclick="navigateTo('page-roles')" class="cta-button">Get Started</a>
+            </div>
+        </div>
+        
+        <!-- Page: Role Selection Dashboard -->
+        <div id="page-roles" class="page-content">
+            <div class="dashboard-container">
+                <h1 class="dashboard-title">Sign In As</h1>
+                <div class="role-selection-grid">
+                    <a onclick="navigateTo('page-login')" class="role-card">
+                        <div class="card-icon"><span>&#128100;</span></div>
+                        <h3>Users</h3>
+                    </a>
+                    <a onclick="navigateTo('page-login')" class="role-card">
+                        <div class="card-icon"><span>&#9877;</span></div>
+                        <h3>Pharmacists</h3>
+                    </a>
+                    <a onclick="navigateTo('page-login')" class="role-card">
+                        <div class="card-icon"><span>&#127973;</span></div>
+                        <h3>Hospitals</h3>
+                    </a>
+                    <a onclick="navigateTo('page-login')" class="role-card">
+                         <div class="card-icon"><span>&#128666;</span></div>
+                        <h3>Vendors & Suppliers</h3>
+                    </a>
                 </div>
-            {% endif %}
-        {% endwith %}
-        {% block content %}{% endblock %}
-    </main>
+            </div>
+        </div>
+
+        <!-- Page: Login -->
+        <div id="page-login" class="page-content">
+            <div class="login-container">
+                <h2>Login</h2>
+                <form onsubmit="event.preventDefault(); navigateTo('page-home');">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <button type="submit">Login</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Page: Home (After Login) -->
+        <div id="page-home" class="page-content">
+            <div class="welcome-container">
+                <h1>Dashboard</h1>
+                <p>Welcome back! Navigate to the medicines page to get a recommendation.</p>
+            </div>
+        </div>
+
+        <!-- Page: Medicines -->
+        <div id="page-medicines" class="page-content">
+            <div class="medicines-container">
+                <h2>Medicine Recommender</h2>
+                <form id="symptoms-form">
+                    <div class="form-group">
+                        <label for="symptoms">Enter Your Symptoms</label>
+                        <textarea id="symptoms" name="symptoms" rows="4" placeholder="e.g., headache, fever, cough" required></textarea>
+                    </div>
+                    <button type="submit">Find Medicines</button>
+                </form>
+                <div id="medicine-results"></div>
+            </div>
+        </div>
+
+        <!-- Page: Contact -->
+        <div id="page-contact" class="page-content">
+            <div class="contact-container">
+                <h2>Contact Us</h2>
+                <!-- === MODIFICATION: Removed inline onsubmit and added an ID to the form === -->
+                <form id="contact-form">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit">Send Message</button>
+                </form>
+                <!-- === NEW: Element to display the success message === -->
+                <div id="contact-success-message" class="success-message"></div>
+            </div>
+        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
-        particlesJS('particles-js',
-          { "particles": { "number": { "value": 80, "density": { "enable": true, "value_area": 800 } }, "color": { "value": "#00aaff" }, "shape": { "type": "circle" }, "opacity": { "value": 0.5, "random": false }, "size": { "value": 3, "random": true }, "line_linked": { "enable": true, "distance": 150, "color": "#00aaff", "opacity": 0.4, "width": 1 }, "move": { "enable": true, "speed": 6, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false } }, "interactivity": { "detect_on": "window", "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" }, "resize": true }, "modes": { "grab": { "distance": 200, "line_linked": { "opacity": 1 } }, "push": { "particles_nb": 4 } } }, "retina_detect": true }
-        );
+        // --- Navigation Logic ---
+        function navigateTo(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page-content').forEach(page => {
+                page.style.display = 'none';
+            });
+            // Show the target page
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.style.display = 'flex';
+            }
+        }
+
+        // --- Mock Medicine Recommendation ---
+        document.getElementById('symptoms-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const resultsContainer = document.getElementById('medicine-results');
+            resultsContainer.innerHTML = `
+                <h3>Recommendations based on your symptoms:</h3>
+                <div class="medicine-item"><strong>Paracetamol:</strong> Effective for fever and headaches.</div>
+                <div class="medicine-item"><strong>Ibuprofen:</strong> Helps with body aches and inflammation.</div>
+                <div class="medicine-item"><strong>Cough Syrup:</strong> For relief from cough and sore throat.</div>
+                <p style="font-size: 0.8rem; margin-top: 15px;"><i>Disclaimer: This is a mock-up. Please consult a doctor for actual medical advice.</i></p>
+            `;
+        });
+        
+        // --- NEW: Contact Form Logic (replaces the alert) ---
+        document.getElementById('contact-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const successMessage = document.getElementById('contact-success-message');
+            const form = event.target;
+            
+            // Show the success message
+            successMessage.textContent = 'Thank you for your message!';
+            successMessage.style.display = 'block';
+            
+            // Reset the form fields
+            form.reset();
+            
+            // Hide the message after 4 seconds
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+            }, 4000);
+        });
+        
+        // --- Initialize App on Load ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Show the initial page
+            navigateTo('page-index');
+            
+            // --- Particles.js Initialization ---
+            // The configuration from particles.json is now directly here
+            particlesJS('particles-js', {
+              "particles": {
+                "number": {
+                  "value": 80,
+                  "density": {
+                    "enable": true,
+                    "value_area": 800
+                  }
+                },
+                "color": {
+                  "value": "#ffffff"
+                },
+                "shape": {
+                  "type": "circle",
+                  "stroke": {
+                    "width": 0,
+                    "color": "#000000"
+                  },
+                  "polygon": {
+                    "nb_sides": 5
+                  },
+                  "image": {
+                    "src": "img/github.svg",
+                    "width": 100,
+                    "height": 100
+                  }
+                },
+                "opacity": {
+                  "value": 0.5,
+                  "random": false,
+                  "anim": {
+                    "enable": false,
+                    "speed": 1,
+                    "opacity_min": 0.1,
+                    "sync": false
+                  }
+                },
+                "size": {
+                  "value": 3,
+                  "random": true,
+                  "anim": {
+                    "enable": false,
+                    "speed": 40,
+                    "size_min": 0.1,
+                    "sync": false
+                  }
+                },
+                "line_linked": {
+                  "enable": true,
+                  "distance": 150,
+                  "color": "#ffffff",
+                  "opacity": 0.4,
+                  "width": 1
+                },
+                "move": {
+                  "enable": true,
+                  "speed": 6,
+                  "direction": "none",
+                  "random": false,
+                  "straight": false,
+                  "out_mode": "out",
+                  "bounce": false,
+                  "attract": {
+                    "enable": false,
+                    "rotateX": 600,
+                    "rotateY": 1200
+                  }
+                }
+              },
+              "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                  "onhover": {
+                    "enable": true,
+                    "mode": "repulse"
+                  },
+                  "onclick": {
+                    "enable": true,
+                    "mode": "push"
+                  },
+                  "resize": true
+                },
+                "modes": {
+                  "grab": {
+                    "distance": 400,
+                    "line_linked": {
+                      "opacity": 1
+                    }
+                  },
+                  "bubble": {
+                    "distance": 400,
+                    "size": 40,
+                    "duration": 2,
+                    "opacity": 8,
+                    "speed": 3
+                  },
+                  "repulse": {
+                    "distance": 200,
+                    "duration": 0.4
+                  },
+                  "push": {
+                    "particles_nb": 4
+                  },
+                  "remove": {
+                    "particles_nb": 2
+                  }
+                }
+              },
+              "retina_detect": true
+            });
+        });
     </script>
-    {% block scripts %}{% endblock %}
 </body>
 </html>
+
