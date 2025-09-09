@@ -347,9 +347,9 @@ button:hover { background-color: var(--accent-color); color: var(--primary-bg); 
     text-align: center;
 }
 
-.alert-success { color: #155724; background-color: #d4edda; border-color: #c3e6cb; }
-.alert-danger { color: #721c24; background-color: #f8d7da; border-color: #f5c6cb; }
-.alert-info { color: #0c5460; background-color: #d1ecf1; border-color: #bee5eb; }
+.alert-success { color: #11922f; background-color: #d4edda; border-color: #c3e6cb; }
+.alert-danger { color: #a70919; background-color: #f8d7da; border-color: #f5c6cb; }
+.alert-info { color: #0e7e92; background-color: #d1ecf1; border-color: #bee5eb; }
 
 /* --- User Actions & Password Toggle --- */
 .user-actions {
