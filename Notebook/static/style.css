@@ -436,11 +436,11 @@ button:hover { background-color: var(--accent-color); color: var(--primary-bg); 
 /* --- Animated Character Styles (GIF Version) --- */
 #animated-character {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 200px; 
-    height: 200px;
-    z-index: 1001; 
+    bottom: -85px;
+    left: -70px;
+    width: 340px;
+    height: 400px;
+    z-index: 1001;
     transition: transform 0.3s ease;
 }
 
