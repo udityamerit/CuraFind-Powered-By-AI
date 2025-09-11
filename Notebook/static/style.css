@@ -418,3 +418,19 @@ button:hover { background-color: var(--accent-color); color: var(--primary-bg); 
     border-radius: 8px;
     /* The background-color line has been removed to keep the original color */
 }
+/* Styling for Showcase Page CTA */
+.showcase-cta {
+    text-align: center;
+    margin-top: 3rem;
+    padding: 2rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.showcase-cta p {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    font-size: 1.2em;
+    font-weight: 500;
+}

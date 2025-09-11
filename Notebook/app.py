@@ -53,6 +53,21 @@ vectorizer, matrix, df = load_model_components(VECTORIZER_FILE, MATRIX_FILE, DAT
 def home():
     return render_template('home.html')
 
+# This route is for non-logged-in users to see a sample of medicines.
+@app.route('/medicines-showcase')
+def medicines_showcase_page():
+    # If a logged-in user finds this page, send them to the full version
+    if current_user.is_authenticated:
+        return redirect(url_for('medicines_page'))
+        
+    medicines_sample = []
+    if df is not None and not df.empty:
+        # Get 10 random medicines to display
+        sample_size = min(10, len(df))
+        medicines_sample = df.sample(n=sample_size).to_dict('records')
+            
+    return render_template('medicines_showcase.html', medicines=medicines_sample)
+
 # --- THE FIX IS HERE ---
 @app.route('/login', methods=['GET', 'POST']) # Corrected from ['GET, POST']
 def login_page():
@@ -122,4 +137,3 @@ def contact_page():
 
 if __name__ == '__main__':
     app.run(debug=True)
-    

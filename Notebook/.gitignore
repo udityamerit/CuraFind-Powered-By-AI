@@ -1,5 +1,5 @@
 # User data
 users.json
-
+__pycache__
 # EmailJS Keys
 static/emailjs-config.js
