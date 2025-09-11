@@ -17,6 +17,7 @@
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.3s ease;
+            cursor: pointer; /* Add pointer cursor to indicate it's clickable */
         }
 
         .modal-overlay.show {
@@ -25,7 +26,7 @@
         }
 
         .modal-content {
-            background: #2c3e50; /* Dark background for better contrast */
+            background: #2c3e50;
             padding: 25px;
             border-radius: 15px;
             text-align: center;
@@ -35,6 +36,7 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.2);
             transform: scale(0.9);
             transition: transform 0.3s ease;
+            cursor: default; /* Revert cursor for the content box */
         }
         
         .modal-overlay.show .modal-content {
@@ -147,11 +149,17 @@
             recognition.continuous = true;
             recognition.interimResults = true;
             recognition.lang = 'en-US';
-
-            micBtn.addEventListener('click', () => {
+            
+            // --- THIS IS THE FIX ---
+            // Allows clicking the pop-up background to stop listening
+            listeningModal.addEventListener('click', () => {
                 if (isListening) {
                     recognition.stop();
-                } else {
+                }
+            });
+
+            micBtn.addEventListener('click', () => {
+                if (!isListening) { // Only allow the button to START recognition
                     recognition.start();
                 }
             });
