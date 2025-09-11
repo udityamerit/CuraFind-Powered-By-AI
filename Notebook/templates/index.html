@@ -17,7 +17,7 @@
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.3s ease;
-            cursor: pointer; /* Add pointer cursor to indicate it's clickable */
+            cursor: pointer;
         }
 
         .modal-overlay.show {
@@ -36,7 +36,7 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.2);
             transform: scale(0.9);
             transition: transform 0.3s ease;
-            cursor: default; /* Revert cursor for the content box */
+            cursor: default;
         }
         
         .modal-overlay.show .modal-content {
@@ -47,6 +47,21 @@
             display: block;
             margin-bottom: 15px;
         }
+
+        /* ======================================= */
+        /* == THIS IS THE FIX FOR THE HOVER EFFECT == */
+        /* ======================================= */
+        #mic-btn {
+            color: #00cefc; /* A clear default color for the icon */
+            transition: transform 0.2s ease, color 0.2s ease;
+        }
+        #mic-btn:hover {
+            opacity: 1 !important; /* Prevents it from fading out */
+            transform: scale(2.05); /* Makes the icon slightly larger */
+            color: #1aff00; /* Changes the icon color to blue */
+        }
+        /* ======================================= */
+
     </style>
 
     <div id="listening-modal" class="modal-overlay">
@@ -150,8 +165,6 @@
             recognition.interimResults = true;
             recognition.lang = 'en-US';
             
-            // --- THIS IS THE FIX ---
-            // Allows clicking the pop-up background to stop listening
             listeningModal.addEventListener('click', () => {
                 if (isListening) {
                     recognition.stop();
@@ -159,7 +172,7 @@
             });
 
             micBtn.addEventListener('click', () => {
-                if (!isListening) { // Only allow the button to START recognition
+                if (!isListening) {
                     recognition.start();
                 }
             });
