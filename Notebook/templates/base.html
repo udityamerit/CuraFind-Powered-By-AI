@@ -31,7 +31,9 @@
                         <a href="{{ url_for('logout') }}" class="logout-button">Logout</a>
                     </div>
 
-                {% else %}
+               {% else %}
+                    <!-- ADDED THIS NEW NAVIGATION LINK -->
+                    <a href="{{ url_for('medicines_showcase_page') }}">Medicines</a>
                     <a href="{{ url_for('login_page') }}">Login/Sign Up</a>
                 {% endif %}
             </div>
