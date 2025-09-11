@@ -433,3 +433,22 @@ button:hover { background-color: var(--accent-color); color: var(--primary-bg); 
     font-size: 1.2em;
     font-weight: 500;
 }
+/* --- Animated Character Styles (GIF Version) --- */
+#animated-character {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 200px; 
+    height: 200px;
+    z-index: 1001; 
+    transition: transform 0.3s ease;
+}
+
+#animated-character img {
+    width: 100%;
+    height: auto;
+}
+
+#animated-character:hover {
+    transform: scale(1.1);
+}
