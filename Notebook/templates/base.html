@@ -16,6 +16,10 @@
 <body>
     <div id="particles-js"></div>
 
+    <div id="animated-character">
+        <img src="{{ url_for('static', filename='doc.gif') }}" alt="Animated Doctor">
+    </div>
+
     <header class="main-header">
         <nav>
             <a href="{{ url_for('home') }}" class="nav-logo">CuraFind AI</a>
@@ -32,7 +36,6 @@
                     </div>
 
                {% else %}
-                    <!-- ADDED THIS NEW NAVIGATION LINK -->
                     <a href="{{ url_for('medicines_showcase_page') }}">Medicines</a>
                     <a href="{{ url_for('login_page') }}">Login/Sign Up</a>
                 {% endif %}
@@ -55,13 +58,12 @@
 
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     
-    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-
     <script>
         particlesJS('particles-js',
           { "particles": { "number": { "value": 80, "density": { "enable": true, "value_area": 800 } }, "color": { "value": "#00aaff" }, "shape": { "type": "circle" }, "opacity": { "value": 0.5, "random": false }, "size": { "value": 3, "random": true }, "line_linked": { "enable": true, "distance": 150, "color": "#00aaff", "opacity": 0.4, "width": 1 }, "move": { "enable": true, "speed": 6, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false } }, "interactivity": { "detect_on": "window", "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" }, "resize": true }, "modes": { "grab": { "distance": 200, "line_linked": { "opacity": 1 } }, "push": { "particles_nb": 4 } } }, "retina_detect": true }
         );
     </script>
+    
     {% block scripts %}{% endblock %}
 </body>
 </html>
