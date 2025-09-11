@@ -19,6 +19,7 @@
                     <h3>{{ recommendation['name'] }}</h3>
                     <p><strong>Description:</strong> {{ recommendation['description'] }}</p>
                     <p><strong>Reason for Use:</strong> {{ recommendation['reason'] }}</p>
+                    <p><strong>Age Group:</strong> {{ recommendation['age_group'] }}</p>
                 </div>
 
                 {% if substitutes %}
@@ -44,6 +45,7 @@
                                 <h3>{{ row['name'] }}</h3>
                                 <p><strong>Description:</strong> {{ row['description'] }}</p>
                                 <p><strong>Reason for Use:</strong> {{ row['reason'] }}</p>
+                                <p><strong>Age Group:</strong> {{ row['age_group'] }}</p>
                             </div>
                         {% endfor %}
                     </div>
