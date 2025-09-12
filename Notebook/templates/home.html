@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Welcome{% endblock %}
+
+{% block content %}
+    <section class="hero">
+        <h1>Welcome to CuraFind AI</h1>
+        <p class="subtitle">Intelligent Medicine Discovery, Simplified.</p>
+        <p class="description">
+            CuraFind AI leverages Natural Language Processing to instantly analyze your symptoms, descriptions, or medicine names, providing you with the most relevant matches and their brand alternatives.
+        </p>
+        <a href="{{ url_for('recommender_page') }}" class="cta-button">Launch Recommender</a>
+    </section>
+
+    <section class="features">
+        <h2>Core Features</h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🔍</div>
+                <h3>Symptom Search</h3>
+                <p>Describe how you feel, and our AI will find medicines that address those specific symptoms.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💊</div>
+                <h3>Brand Alternatives</h3>
+                <p>Find substitutes and alternatives for a given medicine, helping you make informed choices.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Instant Results</h3>
+                <p>Our optimized model delivers recommendations in seconds, providing swift and reliable information.</p>
+            </div>
+        </div>
+    </section>
+{% endblock %}

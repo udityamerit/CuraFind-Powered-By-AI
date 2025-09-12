@@ -1,6 +1,5 @@
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
-import ast
 import pickle
 from scipy.sparse import save_npz
 
@@ -9,7 +8,7 @@ def train_and_save_model(data_filepath, vectorizer_path, matrix_path, df_path):
     Loads data, trains the TF-IDF model, and saves the necessary components to disk.
     """
     print("--- Starting Model Training ---")
-    
+
     # 1. Load and Preprocess Data
     print("Step 1/4: Loading and preprocessing data...")
     try:
@@ -18,15 +17,9 @@ def train_and_save_model(data_filepath, vectorizer_path, matrix_path, df_path):
         print(f"\nFATAL ERROR: The data file '{data_filepath}' was not found.")
         return
 
-    def clean_reason(reason_str):
-        try:
-            return ' '.join(ast.literal_eval(reason_str))
-        except (ValueError, SyntaxError):
-            return ""
+    # Create a 'soup' column by combining 'name', 'description', and 'reason'
+    df['soup'] = df['name'].fillna('') + ' ' + df['description'].fillna('') + ' ' + df['reason'].fillna('')
 
-    df['reason_cleaned'] = df['reason'].apply(clean_reason)
-    df['soup'] = df['name'].fillna('') + ' ' + df['description'].fillna('') + ' ' + df['reason_cleaned']
-    
     # Fill NaN values in substitute columns
     sub_cols = ['substitute0', 'substitute1', 'substitute2', 'substitute3', 'substitute4']
     for col in sub_cols:
@@ -50,15 +43,15 @@ def train_and_save_model(data_filepath, vectorizer_path, matrix_path, df_path):
     save_npz(matrix_path, tfidf_matrix)
     df.to_pickle(df_path)
     print("Matrix and data saved.")
-    
+
     print("\n--- Training Complete! ---")
-    print("You can now run 'interactive_recommender.py'.")
+    print("You can now run 'recommender.py'.")
 
 
 if __name__ == '__main__':
-    DATA_FILE = '../Datasets/merged_medicines_updated.csv'
+    DATA_FILE = "..\\Datasets\\final_medicine_dataset_with_age_group.csv"  # Updated dataset
     VECTORIZER_FILE = 'tfidf_vectorizer.pkl'
     MATRIX_FILE = 'tfidf_matrix.npz'
     DATAFRAME_FILE = 'processed_data.pkl'
-    
+
     train_and_save_model(DATA_FILE, VECTORIZER_FILE, MATRIX_FILE, DATAFRAME_FILE)
